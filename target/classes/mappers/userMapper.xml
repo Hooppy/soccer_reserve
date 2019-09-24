@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.paul.userMapper">
+
+<insert id="join">
+	insert into paul(username, password) 
+ 	values(#{username}, #{password})
+</insert>
+
+<select id="isExist" resultType="java.lang.Integer">
+	select count(*)
+	from paul
+	where username = #{username}
+</select>
+
+<select id="read" resultType="com.paul.model.PaulModel">
+	select * from paul
+	where username = #{username}
+</select>
+
+<select id="getRsvrTime" resultType="com.paul.model.ReserveModel">
+	select * from reserve_time a
+	where a.code = #{code}
+	and a.idx||a.code not in
+		(
+			select c.idx||c.code from reserve b, reserve_time c
+			where b.rsvr_class = c.code
+			and b.rsvr_idx = c.idx
+			and b.rsvr_date = #{time}
+		)
+	order by time
+</select>
+
+<insert id="reserve">
+	insert into reserve(idx, rsvr_class, rsvr_date, rsvr_idx, reg_date, reg_id) 
+ 	values(SEQ_RSVR.NEXTVAL, #{code}, #{time}, #{idx}, sysdate, 'admin')
+</insert>
+
+</mapper>
