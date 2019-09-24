@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="reserve">
 	insert into reserve(idx, rsvr_class, rsvr_date, rsvr_idx, reg_date, reg_id) 
- 	values(SEQ_RSVR.NEXTVAL, #{code}, #{time}, #{idx}, sysdate, 'admin')
+ 	values(SEQ_RSVR.NEXTVAL, #{code}, #{time}, #{idx}, sysdate, #{reg_id})
 </insert>
 
 </mapper>

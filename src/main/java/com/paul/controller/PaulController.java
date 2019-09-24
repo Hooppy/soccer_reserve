@@ -65,11 +65,13 @@ public class PaulController {
 	
 	@RequestMapping("login")
 	public String login(ModelMap model,
-			HttpSession session) {
+		@RequestParam(value = "username") String username,
+		HttpSession session) {
 			
 		Object failureCode = session.getAttribute("failureCode");
 		
 		model.addAttribute("failureCode", failureCode);
+		model.addAttribute("username", username);
 		
 		return "index";
 	}

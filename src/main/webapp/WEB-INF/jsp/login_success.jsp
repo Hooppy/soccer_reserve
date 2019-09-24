@@ -14,7 +14,7 @@
 	    	minDate: 0,
 			onSelect: function(dateText) {
 				$('input[name="code"]').removeAttr('checked');
-				$('div').empty();
+				$('#r4').empty();
 	    	}
 	    }).val()
 	});
@@ -44,17 +44,21 @@
 				dataType: 'json',
 				data: {'code': code, 'time': time},
 				success: function(data){
-					$('div').empty();
-					if(data.length > 0){
-						$('#r2').show();
+					$('#r4').empty();
+					var cnt = 0;
+					
+					if(parseInt(hm) > 2100 || parseInt(data.length) < 1){
+						$('#r4').append('예약 가능한 시간이 없습니다.');
+					}else{
 						$.each(data, function(key, value){
 							var a1 = value.time;
 							var a2 = a1.substring(0,2);
 							var a3 = a1.substring(3,5);
 							var a4 = a2 + a3;
 							
-							if(date == time){
+							if(date == time && data.length > 0){
 								if(parseInt(hm) < parseInt(a4)){
+									cnt = cnt + 1;
 									$('#r4').append('<input type="radio" name="idx" value="' + value.idx + '"/>' + value.time + '<br/>');
 								}
 							}else{
@@ -62,8 +66,10 @@
 							}
 							
 						});
-					}else{
-						$('div').append('NOT DATA');
+					}
+					
+					if(date == time && cnt == 0){
+						$('#r4').append('예약 가능한 시간이 없습니다.');
 					}
 					
 					$("input:radio[name=idx]").click(function(){
@@ -86,7 +92,6 @@
 <title>INDEX</title>
 </head>
 <body>
-
 ${msg} <br/>
 <a href="board/list">게시판</a> <br/>
 
@@ -100,7 +105,7 @@ ${msg} <br/>
 <img id="loading" src="resources/images/loading.gif" style="display:none">
 <div id="r4"></div> <br/>
 <input type="hidden" id="idx" name="idx">
-
+<input type="hidden" name="reg_id" value="${username}">
 <input type="submit" value="예약하기">
 
 

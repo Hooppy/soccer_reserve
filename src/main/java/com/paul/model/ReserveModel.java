@@ -1,7 +1,5 @@
 package com.paul.model;
 
-import java.util.Date;
-
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -9,6 +7,7 @@ public class ReserveModel{
 	int idx;
 	String code;
 	String time;
+	String reg_id;
 	
 	public int getIdx() {
 		return idx;
@@ -27,5 +26,11 @@ public class ReserveModel{
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	public String getReg_id() {
+		return reg_id;
+	}
+	public void setReg_id(String reg_id) {
+		this.reg_id = reg_id;
 	}
 }
