@@ -53,6 +53,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		    }
 	    	
 	    	authorities = (List<GrantedAuthority>) paulModel.getAuthorities();
+	    	System.out.println("±ÇÇÑ : " + authorities);
 	    }
 		
 	    return new UsernamePasswordAuthenticationToken(paulModel, null, authorities);

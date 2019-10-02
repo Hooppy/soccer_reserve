@@ -34,9 +34,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	order by time
 </select>
 
-<insert id="reserve">
+<!-- ORACLE -->
+<!-- <insert id="reserve">
 	insert into reserve(idx, rsvr_class, rsvr_date, rsvr_idx, reg_date, reg_id) 
- 	values(SEQ_RSVR.NEXTVAL, #{code}, #{time}, #{idx}, sysdate, #{reg_id})
+ 	values(SEQ_RSVR.NEXTVAL, #{code}, #{time}, #{idx}, to_char(sysdate, 'YYYY-MM-DD HH24:MI:SS'), #{reg_id})
+</insert> -->
+
+<!-- MYSQL -->
+<insert id="reserve">
+	insert into reserve(rsvr_class, rsvr_date, rsvr_idx, reg_date, reg_id) 
+ 	values(#{code}, #{time}, #{idx}, curdate(), #{reg_id})
 </insert>
+
+<select id="getRsvrList" resultType="com.paul.model.ReserveListModel">
+	select a.rsvr_idx, a.rsvr_class, a.rsvr_date, a.reg_date, b.time, a.reg_id 
+	  from reserve a, reserve_time b
+	 where a.rsvr_idx = b.idx
+	   and a.rsvr_class = b.code
+	   <if test="username != null">
+	   	   and a.reg_id = #{username}
+	   </if>
+</select>
+
+<delete id="delete">
+	delete from reserve
+ 	 where reg_id = #{reg_id}
+ 	   and rsvr_idx = #{idx}
+ 	   and rsvr_class = #{code}
+</delete>
+
+<!-- ORACLE -->
+<!-- <insert id="insert">
+	insert into reserve_drop
+ 	values(#{code}, #{time}, #{idx}, #{reg_date}, #{reg_id}, to_char(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
+</insert> -->
+
+<!-- MYSQL -->
+<insert id="insert">
+	insert into reserve_drop
+ 	values(#{code}, #{time}, #{idx}, #{reg_date}, #{reg_id}, curdate())
+</insert>
+	
+<select id="isExistReserve" resultType="java.lang.Integer">
+	select count(*)
+	from reserve
+	where reg_id = #{reg_id}
+ 	  and rsvr_idx = #{idx}
+ 	  and rsvr_class = #{code}
+</select>
 
 </mapper>

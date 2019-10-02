@@ -8,6 +8,7 @@ public class ReserveModel{
 	String code;
 	String time;
 	String reg_id;
+	String reg_date;
 	
 	public int getIdx() {
 		return idx;
@@ -32,5 +33,11 @@ public class ReserveModel{
 	}
 	public void setReg_id(String reg_id) {
 		this.reg_id = reg_id;
+	}
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
 	}
 }

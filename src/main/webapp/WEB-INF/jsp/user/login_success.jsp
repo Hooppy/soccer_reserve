@@ -31,12 +31,16 @@
 		var hour = d.getHours() + 1;
 		var min = d.getMinutes();
 		
+		if(hour < 10) hour = "0" + hour;
+		if(min < 10) min = "0" + min;
+		
 		var date = String(year) + '-' + String(month) + '-' + String(day);
 		var hm = String(hour) + String(min);
 		
 		$("input:radio[name=code]").click(function(){
 			var code = $('input[name="code"]:checked').val();
 			var time = $("#time").val();
+			$("input[type=hidden]").val('');
 			
 			$.ajax({
 				url: 'reserve/search',
@@ -84,6 +88,20 @@
 					
 			});
 		});
+		$("input:button[name=reserve_btn]").click(function(){
+			if($('#time').val() == ''){
+				alert('날짜를 선택하세요.');
+				return false;
+			}else if($('#time').val() < date){
+				alert('이전 날짜는 선택이 불가능합니다.');
+				return false;
+			}else if($('#idx').val() == ''){
+				alert('시간을 선택하세요.');
+				return false;
+			}
+			
+			$('#reserve_form').submit();
+		});
 	});
 </script>
 
@@ -94,21 +112,19 @@
 <body>
 ${msg} <br/>
 <a href="board/list">게시판</a> <br/>
+<a href="reserve_list">예약조회</a>
 
-<form action="reserve" method="post">
-
+<form action="reserve" id="reserve_form" method="post">
 	경기일 : <input id="time" name="time"> <br/>
 	경기구장 : <input type="radio" name="code" value="A" />A구장
 	        <input type="radio" name="code" value="B" />B구장
 	        <input type="radio" name="code" value="C" />C구장 <br/>
 	경기시간 : <br/>
-<img id="loading" src="resources/images/loading.gif" style="display:none">
+<img id="loading" src="../resources/images/loading.gif" style="display:none">
 <div id="r4"></div> <br/>
 <input type="hidden" id="idx" name="idx">
 <input type="hidden" name="reg_id" value="${username}">
-<input type="submit" value="예약하기">
-
-
+<input type="button" name="reserve_btn" value="예약하기">
 
 </form>
 </body>

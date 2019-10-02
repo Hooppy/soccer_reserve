@@ -13,6 +13,7 @@
 </script>
 
 <head>
+
 <meta charset="EUC-KR">
 <title>INDEX</title>
 </head>
@@ -24,7 +25,7 @@ ${failureCode}
 	<input type="submit" value="로그인">
 	<button id="btn" type="button">회원가입</button>
 	
-<img src="resources/images/1.png">
+<img src="../resources/images/1.png">
 
 </form>
 </body>

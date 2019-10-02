@@ -1,7 +1,6 @@
 package com.paul.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.paul.model.PaulModel;
+import com.paul.model.ReserveListModel;
 import com.paul.model.ReserveModel;
 
 @Repository
@@ -78,6 +78,55 @@ public class PaulDao {
 			sqlSession.insert(namespace + ".reserve", reserveModel);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public List<ReserveListModel> getReserveList(String username) {
+		List<ReserveListModel> list = null;
+		System.out.println("À¯Àú : " + username);
+		try {
+			list = sqlSession.selectList(namespace + ".getRsvrList", username);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(list.size() > 0) {
+			System.out.println("2 : " + list.get(0).getReg_date());
+		}
+		
+		return list;
+	}
+
+	public void delete(ReserveModel reserveModel) {
+		try {
+			System.out.println("3 : " + reserveModel.getReg_date());
+			
+			
+			sqlSession.insert(namespace + ".insert", reserveModel);
+			sqlSession.delete(namespace + ".delete", reserveModel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public boolean isExistReserve(ReserveModel reserveModel) {
+		
+		int count = 0;
+		
+		System.out.println("1 : " + reserveModel.getIdx());
+		System.out.println("2 : " + reserveModel.getCode());
+		System.out.println("3 : " + reserveModel.getReg_id());
+		
+		try {
+			count = sqlSession.selectOne(namespace + ".isExistReserve", reserveModel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("count : " + count);
+		if(count > 0) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 }

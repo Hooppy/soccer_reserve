@@ -36,6 +36,8 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		
 		HttpSession httpSession = request.getSession();
 		
+		String username = request.getParameter("username");
+		
 		//Session에 저장해서 Controller에서 활용
 		httpSession.setAttribute("username", request.getParameter("username"));
 		httpSession.setAttribute("password", request.getParameter("password"));
@@ -47,8 +49,11 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		
 		// spring-security 타기 직전 URL 값 저장해서 Redirect (login 성공시, login 화면 전에 입력한 url로 이동)
 		//url = savedRequest.getRedirectUrl();
-		
-		url = "/login_success";
+		if(username.equals("admin")) {
+			url = "/admin/login_success";
+		}else {
+			url = "/user/login_success";
+		}
 		
 		redirectStrategy.sendRedirect(request, response, url);
 		
