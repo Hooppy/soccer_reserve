@@ -39,16 +39,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
 		System.out.println(authToken.getName());
 		
-		paulModel = customUserDetailsService.loadUserByUsername(authToken.getName()); //UserDetailsService에서 유저정보를 불러온다.
+		//UserDetailsService에서 유저정보를 불러온다.
+		paulModel = customUserDetailsService.loadUserByUsername(authToken.getName()); 
 		
 		if(!paulDao.isExist(authToken.getName())) {
-			System.out.println("1");
 			throw new BadCredentialsException("Non Exist");
 		}else {
 	    	
 	    	// 암호화 되지 않은 authToken.getCredentials(id입력값)과 암호화된 testModel.getPassword(DB에 저장된 값)을 비교하여 맞으면 true
 	    	if(!standardEncoder.matches((String) authToken.getCredentials(), paulModel.getPassword())) {
-	    		System.out.println("2");
 	    		throw new BadCredentialsException("Not Match Password");
 		    }
 	    	

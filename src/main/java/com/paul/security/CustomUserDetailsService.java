@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public PaulModel loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		try {
-			//디비 정보를 불러와 유저정보 조회
+			//DB 정보를 불러와 유저정보 조회
 			paulModel = paulDao.read(username);
 			
 		} catch (Exception e) {
